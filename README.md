@@ -1,0 +1,1 @@
+# ha-koridor-light-card
