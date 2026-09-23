@@ -177,7 +177,7 @@ PR'ы и идеи приветствуются! См. [CONTRIBUTING.md](CONTRIBU
 
 ## 📄 Лицензия
 
-MIT © [YOUR_NAME]. См. [LICENSE](LICENSE).
+MIT © NikolaYudin. См. [LICENSE](LICENSE).
 
 ---
 
