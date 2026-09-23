@@ -1,0 +1,63 @@
+scene:
+  - id: koridor_bright
+    name: "Коридор: Яркий"
+    entities:
+      light.koridor:
+        state: on
+        brightness: 255
+        color_temp_kelvin: 4000
+
+  - id: koridor_night
+    name: "Коридор: Ночной"
+    entities:
+      light.koridor:
+        state: on
+        brightness: 25
+        color_temp_kelvin: 2700
+
+  - id: koridor_flowers
+    name: "Коридор: Цветы"
+    entities:
+      light.camelion1:
+        state: off
+      light.camelion2:
+        state: off
+      light.camelion3:
+        state: off
+      light.camelion4:
+        state: on
+        brightness: 38
+        rgb_color: [148, 0, 211]
+
+automation:
+  - alias: "Коридор: автоночной режим"
+    id: koridor_auto_night
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_koridor
+        to: "on"
+    condition:
+      - condition: sun
+        after: sunset
+        before_offset: "-00:30:00"
+    action:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.koridor_night
+    mode: single
+
+  - alias: "Коридор: автояркий режим"
+    id: koridor_auto_bright
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_koridor
+        to: "on"
+    condition:
+      - condition: sun
+        before: sunset
+        after_offset: "-01:00:00"
+    action:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.koridor_bright
+    mode: single
