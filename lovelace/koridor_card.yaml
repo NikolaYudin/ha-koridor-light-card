@@ -1,6 +1,6 @@
 type: vertical-stack
 cards:
-  # ── Блок 1: группа ──
+  # ── Блок 1: группа (полное управление) ──
   - type: custom:mushroom-light-card
     entity: light.koridor
     name: Коридор
@@ -11,57 +11,117 @@ cards:
     show_slider_control: true
     collapsible_controls: false
 
-  # ── Блок 2: лампы (тап = вкл/выкл, индикация = цвет иконки) ──
+  # ── Блок 2: лампы = узкие пилюли с градиентом, без иконок ──
   - type: grid
     columns: 4
     square: false
     cards:
-      - type: custom:mushroom-template-card
-        primary: Л1
-        icon: mdi:ceiling-light
-        color: "{{ 'amber' if is_state('light.camelion1','on') else 'disabled' }}"
+      - type: custom:mushroom-light-card
+        entity: light.camelion1
+        name: Л1
+        show_slider_control: true
+        collapsible_controls: false
         tap_action:
-          action: call-service
-          service: light.toggle
-          target:
-            entity_id: light.camelion1
-        hold_action:
-          action: more-info
-      - type: custom:mushroom-template-card
-        primary: Л2
-        icon: mdi:ceiling-light
-        color: "{{ 'amber' if is_state('light.camelion2','on') else 'disabled' }}"
+          action: toggle
+        card_mod:
+          style:
+            .: |
+              {% if is_state('light.camelion1','on') %}
+              ha-card {
+                background: linear-gradient(90deg,
+                  rgba({{ (state_attr('light.camelion1','rgb_color') or [255,190,90])[0] }}, {{ (state_attr('light.camelion1','rgb_color') or [255,190,90])[1] }}, {{ (state_attr('light.camelion1','rgb_color') or [255,190,90])[2] }}, 0.40) 0%,
+                  rgba({{ (state_attr('light.camelion1','rgb_color') or [255,190,90])[0] }}, {{ (state_attr('light.camelion1','rgb_color') or [255,190,90])[1] }}, {{ (state_attr('light.camelion1','rgb_color') or [255,190,90])[2] }}, 0.22) {{ ((state_attr('light.camelion1','brightness') or 255) / 255 * 100) | round(0) | int }}%,
+                  rgba(0, 0, 0, 0) {{ ((state_attr('light.camelion1','brightness') or 255) / 255 * 100) | round(0) | int }}%) !important;
+              }
+              {% else %}
+              ha-card {
+                background: var(--ha-card-background, var(--card-background-color)) !important;
+              }
+              {% endif %}
+            mushroom-state-item$: |
+              .icon {
+                display: none !important;
+              }
+      - type: custom:mushroom-light-card
+        entity: light.camelion2
+        name: Л2
+        show_slider_control: true
+        collapsible_controls: false
         tap_action:
-          action: call-service
-          service: light.toggle
-          target:
-            entity_id: light.camelion2
-        hold_action:
-          action: more-info
-      - type: custom:mushroom-template-card
-        primary: Л3
-        icon: mdi:ceiling-light
-        color: "{{ 'amber' if is_state('light.camelion3','on') else 'disabled' }}"
+          action: toggle
+        card_mod:
+          style:
+            .: |
+              {% if is_state('light.camelion2','on') %}
+              ha-card {
+                background: linear-gradient(90deg,
+                  rgba({{ (state_attr('light.camelion2','rgb_color') or [255,190,90])[0] }}, {{ (state_attr('light.camelion2','rgb_color') or [255,190,90])[1] }}, {{ (state_attr('light.camelion2','rgb_color') or [255,190,90])[2] }}, 0.40) 0%,
+                  rgba({{ (state_attr('light.camelion2','rgb_color') or [255,190,90])[0] }}, {{ (state_attr('light.camelion2','rgb_color') or [255,190,90])[1] }}, {{ (state_attr('light.camelion2','rgb_color') or [255,190,90])[2] }}, 0.22) {{ ((state_attr('light.camelion2','brightness') or 255) / 255 * 100) | round(0) | int }}%,
+                  rgba(0, 0, 0, 0) {{ ((state_attr('light.camelion2','brightness') or 255) / 255 * 100) | round(0) | int }}%) !important;
+              }
+              {% else %}
+              ha-card {
+                background: var(--ha-card-background, var(--card-background-color)) !important;
+              }
+              {% endif %}
+            mushroom-state-item$: |
+              .icon {
+                display: none !important;
+              }
+      - type: custom:mushroom-light-card
+        entity: light.camelion3
+        name: Л3
+        show_slider_control: true
+        collapsible_controls: false
         tap_action:
-          action: call-service
-          service: light.toggle
-          target:
-            entity_id: light.camelion3
-        hold_action:
-          action: more-info
-      - type: custom:mushroom-template-card
-        primary: Л4
-        icon: mdi:ceiling-light
-        color: "{{ 'amber' if is_state('light.camelion4','on') else 'disabled' }}"
+          action: toggle
+        card_mod:
+          style:
+            .: |
+              {% if is_state('light.camelion3','on') %}
+              ha-card {
+                background: linear-gradient(90deg,
+                  rgba({{ (state_attr('light.camelion3','rgb_color') or [255,190,90])[0] }}, {{ (state_attr('light.camelion3','rgb_color') or [255,190,90])[1] }}, {{ (state_attr('light.camelion3','rgb_color') or [255,190,90])[2] }}, 0.40) 0%,
+                  rgba({{ (state_attr('light.camelion3','rgb_color') or [255,190,90])[0] }}, {{ (state_attr('light.camelion3','rgb_color') or [255,190,90])[1] }}, {{ (state_attr('light.camelion3','rgb_color') or [255,190,90])[2] }}, 0.22) {{ ((state_attr('light.camelion3','brightness') or 255) / 255 * 100) | round(0) | int }}%,
+                  rgba(0, 0, 0, 0) {{ ((state_attr('light.camelion3','brightness') or 255) / 255 * 100) | round(0) | int }}%) !important;
+              }
+              {% else %}
+              ha-card {
+                background: var(--ha-card-background, var(--card-background-color)) !important;
+              }
+              {% endif %}
+            mushroom-state-item$: |
+              .icon {
+                display: none !important;
+              }
+      - type: custom:mushroom-light-card
+        entity: light.camelion4
+        name: Л4
+        show_slider_control: true
+        collapsible_controls: false
         tap_action:
-          action: call-service
-          service: light.toggle
-          target:
-            entity_id: light.camelion4
-        hold_action:
-          action: more-info
+          action: toggle
+        card_mod:
+          style:
+            .: |
+              {% if is_state('light.camelion4','on') %}
+              ha-card {
+                background: linear-gradient(90deg,
+                  rgba({{ (state_attr('light.camelion4','rgb_color') or [255,190,90])[0] }}, {{ (state_attr('light.camelion4','rgb_color') or [255,190,90])[1] }}, {{ (state_attr('light.camelion4','rgb_color') or [255,190,90])[2] }}, 0.40) 0%,
+                  rgba({{ (state_attr('light.camelion4','rgb_color') or [255,190,90])[0] }}, {{ (state_attr('light.camelion4','rgb_color') or [255,190,90])[1] }}, {{ (state_attr('light.camelion4','rgb_color') or [255,190,90])[2] }}, 0.22) {{ ((state_attr('light.camelion4','brightness') or 255) / 255 * 100) | round(0) | int }}%,
+                  rgba(0, 0, 0, 0) {{ ((state_attr('light.camelion4','brightness') or 255) / 255 * 100) | round(0) | int }}%) !important;
+              }
+              {% else %}
+              ha-card {
+                background: var(--ha-card-background, var(--card-background-color)) !important;
+              }
+              {% endif %}
+            mushroom-state-item$: |
+              .icon {
+                display: none !important;
+              }
 
-  # ── Блок 3: сцены (узкие, активная подсвечивается) ──
+  # ── Блок 3: сцены с индикацией активной ──
   - type: heading
     heading: Сцены
     heading_style: subtitle
@@ -70,42 +130,15 @@ cards:
     square: false
     cards:
       - type: custom:mushroom-template-card
+        layout: vertical
         primary: Яркий
         icon: mdi:sun-angle
-        color: >-
-          {{ 'amber' if is_state('light.koridor','on')
-          and (state_attr('light.koridor','brightness') | int(0)) >= 200
-          else 'disabled' }}
+        icon_color: >-
+          {{ 'amber' if is_state('light.koridor','on') and
+          (state_attr('light.koridor','brightness') | int(0)) >= 200 else
+          'disabled' }}
         tap_action:
           action: call-service
           service: scene.turn_on
           target:
-            entity_id: scene.koridor_bright
-      - type: custom:mushroom-template-card
-        primary: Ночной
-        icon: mdi:weather-night
-        color: >-
-          {{ 'indigo' if is_state('light.koridor','on')
-          and (state_attr('light.koridor','brightness') | int(0)) <= 128
-          and is_state('light.camelion1','on')
-          else 'disabled' }}
-        tap_action:
-          action: call-service
-          service: scene.turn_on
-          target:
-            entity_id: scene.koridor_night
-      - type: custom:mushroom-template-card
-        primary: Цветы
-        icon: mdi:flower
-        color: >-
-          {{ 'purple' if is_state('light.camelion4','on')
-          and state_attr('light.camelion4','brightness') == 38
-          and is_state('light.camelion1','off')
-          and is_state('light.camelion2','off')
-          and is_state('light.camelion3','off')
-          else 'disabled' }}
-        tap_action:
-          action: call-service
-          service: scene.turn_on
-          target:
-            entity_id: scene.koridor_flowers
+            entity_id: scene.kor
