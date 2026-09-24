@@ -28,36 +28,3 @@ scene:
         state: on
         brightness: 38
         rgb_color: [148, 0, 211]
-
-automation:
-  - alias: "Коридор: автоночной режим"
-    id: koridor_auto_night
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.motion_koridor
-        to: "on"
-    condition:
-      - condition: sun
-        after: sunset
-        before_offset: "-00:30:00"
-    action:
-      - action: scene.turn_on
-        target:
-          entity_id: scene.koridor_night
-    mode: single
-
-  - alias: "Коридор: автояркий режим"
-    id: koridor_auto_bright
-    trigger:
-      - platform: state
-        entity_id: binary_sensor.motion_koridor
-        to: "on"
-    condition:
-      - condition: sun
-        before: sunset
-        after_offset: "-01:00:00"
-    action:
-      - action: scene.turn_on
-        target:
-          entity_id: scene.koridor_bright
-    mode: single
