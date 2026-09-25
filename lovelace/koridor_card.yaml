@@ -11,14 +11,13 @@ cards:
     show_slider_control: true
     collapsible_controls: false
 
-  # ── Блок 2: лампы = узкие пилюли с градиентом, без иконок ──
+  # ── Блок 2: лампы-пилюли с живым градиентом, без иконок ──
   - type: grid
     columns: 4
     square: false
     cards:
       - type: custom:mushroom-light-card
         entity: light.camelion1
-        name: Л1
         show_slider_control: true
         collapsible_controls: false
         tap_action:
@@ -44,7 +43,6 @@ cards:
               }
       - type: custom:mushroom-light-card
         entity: light.camelion2
-        name: Л2
         show_slider_control: true
         collapsible_controls: false
         tap_action:
@@ -70,7 +68,6 @@ cards:
               }
       - type: custom:mushroom-light-card
         entity: light.camelion3
-        name: Л3
         show_slider_control: true
         collapsible_controls: false
         tap_action:
@@ -96,7 +93,6 @@ cards:
               }
       - type: custom:mushroom-light-card
         entity: light.camelion4
-        name: Л4
         show_slider_control: true
         collapsible_controls: false
         tap_action:
@@ -121,7 +117,7 @@ cards:
                 display: none !important;
               }
 
-  # ── Блок 3: сцены с индикацией активной ──
+  # ── Блок 3: сцены с индикацией по памяти + состоянию ──
   - type: heading
     heading: Сцены
     heading_style: subtitle
@@ -134,11 +130,36 @@ cards:
         primary: Яркий
         icon: mdi:sun-angle
         icon_color: >-
-          {{ 'amber' if is_state('light.koridor','on') and
+          {{ 'amber' if is_state('input_text.koridor_last_scene','bright')
+          and is_state('light.koridor','on') and
           (state_attr('light.koridor','brightness') | int(0)) >= 200 else
           'disabled' }}
         tap_action:
           action: call-service
-          service: scene.turn_on
-          target:
-            entity_id: scene.kor
+          service: script.koridor_scene_bright
+      - type: custom:mushroom-template-card
+        layout: vertical
+        primary: Ночной
+        icon: mdi:weather-night
+        icon_color: >-
+          {{ 'indigo' if is_state('input_text.koridor_last_scene','night')
+          and is_state('light.koridor','on') and
+          (state_attr('light.koridor','brightness') | int(0)) <= 128 and
+          is_state('light.camelion1','on') else 'disabled' }}
+        tap_action:
+          action: call-service
+          service: script.koridor_scene_night
+      - type: custom:mushroom-template-card
+        layout: vertical
+        primary: Цветы
+        icon: mdi:flower
+        icon_color: >-
+          {{ 'purple' if is_state('input_text.koridor_last_scene','flowers')
+          and is_state('light.camelion4','on') and
+          state_attr('light.camelion4','brightness') == 38 and
+          is_state('light.camelion1','off') and
+          is_state('light.camelion2','off') and
+          is_state('light.camelion3','off') else 'disabled' }}
+        tap_action:
+          action: call-service
+          service: script.koridor_scene_flowers
