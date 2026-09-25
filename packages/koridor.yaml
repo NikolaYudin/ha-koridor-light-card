@@ -1,3 +1,10 @@
+input_text:
+  koridor_last_scene:
+    name: Коридор последняя сцена
+    initial: none
+    max: 20
+    icon: mdi:memory
+
 scene:
   - id: koridor_bright
     name: "Коридор: Яркий"
@@ -28,3 +35,93 @@ scene:
         state: on
         brightness: 38
         rgb_color: [148, 0, 211]
+
+script:
+  koridor_scene_bright:
+    alias: "Коридор: применить Яркий"
+    mode: single
+    sequence:
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.koridor_last_scene
+        data:
+          value: bright
+      - service: scene.turn_on
+        target:
+          entity_id: scene.koridor_bright
+
+  koridor_scene_night:
+    alias: "Коридор: применить Ночной"
+    mode: single
+    sequence:
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.koridor_last_scene
+        data:
+          value: night
+      - service: scene.turn_on
+        target:
+          entity_id: scene.koridor_night
+
+  koridor_scene_flowers:
+    alias: "Коридор: применить Цветы"
+    mode: single
+    sequence:
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.koridor_last_scene
+        data:
+          value: flowers
+      - service: scene.turn_on
+        target:
+          entity_id: scene.koridor_flowers
+
+automation:
+  - alias: "Коридор: смерть памяти сцены при выключении"
+    id: koridor_last_scene_reset
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: light.koridor
+        to: "off"
+    action:
+      - service: input_text.set_value
+        target:
+          entity_id: input_text.koridor_last_scene
+        data:
+          value: none
+
+  - alias: "Коридор: чистый старт после смерти памяти"
+    id: koridor_clean_on
+    mode: single
+    trigger:
+      - platform: state
+        entity_id: light.koridor
+        from: "off"
+        to: "on"
+    condition:
+      - condition: state
+        entity_id: input_text.koridor_last_scene
+        state: "none"
+    action:
+      - delay: "00:00:02"
+      - condition: state
+        entity_id: light.camelion1
+        state: "on"
+      - condition: state
+        entity_id: light.camelion2
+        state: "on"
+      - condition: state
+        entity_id: light.camelion3
+        state: "on"
+      - condition: state
+        entity_id: light.camelion4
+        state: "on"
+      - choose:
+          - conditions:
+              - condition: sun
+                after: sunset
+            sequence:
+              - service: script.koridor_scene_night
+        default:
+          - service: script.koridor_scene_bright
